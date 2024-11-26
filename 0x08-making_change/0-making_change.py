@@ -1,12 +1,9 @@
 #!/usr/bin/python3
-"""Determine the fewest number of coins
-needed to meet a given amount total
+"""Compute the fewest coins needed to match the target total.
 """
 
-
 def makeChange(coins, total):
-    """Return fewest number of coins needed to meet total
-    0 if total is 0 or less, -1 if total cannot be met
+    """Return the fewest coins needed; 0 if total ≤ 0, -1 if impossible.
     """
     if total <= 0:
         return 0
