@@ -2,12 +2,7 @@
 """Making Change"""
 
 def makeChange(coins, total):
-    """ Generate changes needed to reach total
-
-    Args:
-        coins ([List]): [List of Coins available]
-        total ([int]): [total amount needed]
-    """
+    """ Generate changes needed to reach total"""
     if total <= 0:
         return 0
     check = 0
