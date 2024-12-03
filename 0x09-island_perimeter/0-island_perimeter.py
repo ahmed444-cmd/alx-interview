@@ -24,11 +24,11 @@ def island_perimeter(grid):
             if grid[r][c] == 1:
                 # Start with a full square (4 sides)
                 perimeter += 4
-
-                # Check for adjacent land cells and subtract the shared edges
-                if r > 0 and grid[r - 1][c] == 1:  # Check the cell above
+                # Check the cell above
+                if r > 0 and grid[r - 1][c] == 1:
                     perimeter -= 2
-                if c > 0 and grid[r][c - 1] == 1:  # Check the cell to the left
+                # Check the cell to the left
+                if c > 0 and grid[r][c - 1] == 1:
                     perimeter -= 2
 
     return perimeter
