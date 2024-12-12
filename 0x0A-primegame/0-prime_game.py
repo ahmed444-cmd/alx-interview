@@ -1,4 +1,3 @@
-
 #!/usr/bin/python3
 """
 Prime Game Module: Defines function that determines the winner after a certain
