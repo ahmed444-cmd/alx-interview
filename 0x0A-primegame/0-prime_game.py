@@ -1,49 +1,44 @@
 #!/usr/bin/python3
 """
-this module defines the function isWinner
+Prime Game Module: Defines function that determines the winner after a certain
+number of rounds of playing the Prime Game.
 """
 
 
-def primeNumbers(n):
-    """this function return an array of prime numbers
-    smaller or equal to n using Sieve of Eratosthenes"""
-    result = []
-    prime = [True for i in range(n+1)]
-    p = 2
-    while (p * p <= n):
-        if (prime[p] is True):
-            for i in range(p * p, n+1, p):
-                prime[i] = False
-        p += 1
-    for p in range(2, n+1):
-        if prime[p]:
-            result.append(p)
-    return result
-
-
 def isWinner(x, nums):
-    """Maria and Ben are playing a game.
-    Given a set of consecutive integers starting from 1 up to and including n,
-    they take turns choosing a prime number from the set and removing
-    that number and its multiples from the set.
-    The player that cannot make a move loses the game.
-    They play x rounds of the game,
-    where n may be different for each round.
-    Assuming Maria always goes first and both players play optimally,
-    determine who the winner of each game is.
+    """isWinner
+
+    Determine who is the winner after a certain number of rounds.
+
+    Argumnets:
+        x (int): The number of rounds
+        nums (List[int]): List of all the n's for each round.
+
+    Return:
+        (str): The name of the player who wins.
     """
-
-    if x != len(nums):
+    if not nums or x < 1:  # if nums is empty or x is less than 1
         return None
+    n = max(nums)  # get the max value in nums list
+    sieve = [True for _ in range(max(n + 1, 2))]  # create a sieve of True val.
+    for i in range(2, int(pow(n, 0.5)) + 1):  # loop through the sieve
+        if not sieve[i]:  # if the value is False (not prime)
+            continue
+        for j in range(i*i, n + 1, i):  # loop through the sieve
+            sieve[j] = False  # set the value to False (not prime)
 
-    Ben = 0
-    Maria = 0
+    sieve[0] = sieve[1] = False  # set 0 and 1 to False (not prime)
+    count = 0  # initialize count to 0 (Maria's score)
+    for i in range(len(sieve)):  # loop through the sieve and count the primes
+        if sieve[i]:  # if the value is True (prime)
+            count += 1
+        sieve[i] = count  # set the value to the count of primes
 
-    for num in nums:
-        primes = primeNumbers(num)
-        if len(primes) % 2 == 0:
-            Ben += 1
-        else:
-            Maria += 1
-
-    return "Ben" if Ben > Maria else "Mar
+    player1 = 0
+    for n in nums:  # loop through the nums list and count Maria's wins
+        player1 += sieve[n] % 2 == 1  # if Maria's score is odd, she wins
+    if player1 * 2 == len(nums):  # if Maria wins half the rounds
+        return None
+    if player1 * 2 > len(nums):  # if Maria wins more than half the rounds
+        return "Maria"  # Maria wins
+    return "Ben"  # Ben wins
