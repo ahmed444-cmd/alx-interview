@@ -1,64 +1,51 @@
 #!/usr/bin/python3
+"""Module for Island Perimeter
+"""
 
-"""Module defining isWinner function."""
 
-def isWinner(x, nums):
-    """
-    Determine the winner of the Prime Game after x rounds.
+def island_perimeter(grid):
+    """Returns the perimeter of the island described in grid.
+
+    grid is a list of list of integers:
+    - 0 represents water
+    - 1 represents land
+    Each cell is square, with a side length of 1
+    Cells are connected horizontally/vertically (not diagonally).
+    grid is rectangular, with its width and height not exceeding 100
+    The grid is completely surrounded by water
+    There is only one island (or nothing).
+    The island doesn’t have “lakes” (water inside that isn’t connected to
+    the water surrounding the island).
 
     Args:
-        x (int): Number of rounds to be played.
-        nums (list): List of integers defining the range for each round.
+        grid (list of list of int): the grid representing the island
 
     Returns:
-        str: Name of the player with the most wins or None if tied.
+        int: the perimeter of the island
     """
-    mariaWinsCount = 0
-    benWinsCount = 0
+    # Determine the number of rows and columns in the grid
+    rows = len(grid)
+    cols = len(grid[0])
 
-    for num in nums:
-        roundsSet = list(range(1, num + 1))
-        primesSet = primes_in_range(1, num)
+    # Initialize the perimeter variable to 0
+    perimeter = 0
 
-        if not primesSet:
-            benWinsCount += 1
-            continue
+    # Loop through each cell in the grid
+    for i in range(rows):
+        for j in range(cols):
+            if grid[i][j] == 1:
+                # Check the top edge
+                if i == 0 or grid[i-1][j] == 0:
+                    perimeter += 1
+                # Check the bottom edge
+                if i == rows-1 or grid[i+1][j] == 0:
+                    perimeter += 1
+                # Check the left edge
+                if j == 0 or grid[i][j-1] == 0:
+                    perimeter += 1
+                # Check the right edge
+                if j == cols-1 or grid[i][j+1] == 0:
+                    perimeter += 1
 
-        isMariaTurns = True
-
-        while True:
-            if not primesSet:
-                if isMariaTurns:
-                    benWinsCount += 1
-                else:
-                    mariaWinsCount += 1
-                break
-
-            smallestPrime = primesSet.pop(0)
-            roundsSet.remove(smallestPrime)
-
-            roundsSet = [x for x in roundsSet if x % smallestPrime != 0]
-
-            isMariaTurns = not isMariaTurns
-
-    if mariaWinsCount > benWinsCount:
-        return "Winner: Maria"
-
-    if mariaWinsCount < benWinsCount:
-        return "Winner: Ben"
-
-    return None
-
-def is_prime(n):
-    """Determine if n is a prime number."""
-    if n < 2:
-        return False
-    for i in range(2, int(n ** 0.5) + 1):
-        if n % i == 0:
-            return False
-    return True
-
-def primes_in_range(start, end):
-    """Generate a list of primes between start and end inclusive."""
-    primes = [n for n in range(start, end + 1) if is_prime(n)]
-    return primes
+    # Return the total perimeter
+    return perimeter
