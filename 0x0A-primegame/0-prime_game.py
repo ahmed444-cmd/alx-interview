@@ -1,9 +1,9 @@
 #!/usr/bin/python3
+
 """
 Prime Game Module: Defines function that determines the winner after a certain
 number of rounds of playing the Prime Game.
 """
-
 
 def isWinner(x, nums):
     """isWinner
@@ -17,28 +17,29 @@ def isWinner(x, nums):
     Return:
         (str): The name of the player who wins.
     """
-    if not nums or x < 1:  # if nums is empty or x is less than 1
+    if not nums or x < 1:
         return None
-    n = max(nums)  # get the max value in nums list
-    sieve = [True for _ in range(max(n + 1, 2))]  # create a sieve of True val.
-    for i in range(2, int(pow(n, 0.5)) + 1):  # loop through the sieve
-        if not sieve[i]:  # if the value is False (not prime)
+    n = max(nums)
+    sieve = [True for _ in range(max(n + 1, 2))]
+    for i in range(2, int(pow(n, 0.5)) + 1):
+        if not sieve[i]:
             continue
-        for j in range(i*i, n + 1, i):  # loop through the sieve
-            sieve[j] = False  # set the value to False (not prime)
+        for j in range(i*i, n + 1, i):
+            sieve[j] = False
 
-    sieve[0] = sieve[1] = False  # set 0 and 1 to False (not prime)
-    count = 0  # initialize count to 0 (Maria's score)
-    for i in range(len(sieve)):  # loop through the sieve and count the primes
-        if sieve[i]:  # if the value is True (prime)
+    sieve[0] = sieve[1] = False
+    count = 0
+    for i in range(len(sieve)):
+        if sieve[i]:
             count += 1
-        sieve[i] = count  # set the value to the count of primes
+        sieve[i] = count
 
     player1 = 0
-    for n in nums:  # loop through the nums list and count Maria's wins
-        player1 += sieve[n] % 2 == 1  # if Maria's score is odd, she wins
-    if player1 * 2 == len(nums):  # if Maria wins half the rounds
+    for n in nums:
+        player1 += sieve[n] % 2 == 1
+    if player1 * 2 == len(nums):
         return None
-    if player1 * 2 > len(nums):  # if Maria wins more than half the rounds
-        return "Maria"  # Maria wins
-    return "Ben"  # Ben wins
+    if player1 * 2 > len(nums):
+        return "Maria"
+    return "Ben"
+
