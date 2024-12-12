@@ -1,51 +1,49 @@
 #!/usr/bin/python3
-"""Module for Island Perimeter
+"""
+this module defines the function isWinner
 """
 
 
-def island_perimeter(grid):
-    """Returns the perimeter of the island described in grid.
+def primeNumbers(n):
+    """this function return an array of prime numbers
+    smaller or equal to n using Sieve of Eratosthenes"""
+    result = []
+    prime = [True for i in range(n+1)]
+    p = 2
+    while (p * p <= n):
+        if (prime[p] is True):
+            for i in range(p * p, n+1, p):
+                prime[i] = False
+        p += 1
+    for p in range(2, n+1):
+        if prime[p]:
+            result.append(p)
+    return result
 
-    grid is a list of list of integers:
-    - 0 represents water
-    - 1 represents land
-    Each cell is square, with a side length of 1
-    Cells are connected horizontally/vertically (not diagonally).
-    grid is rectangular, with its width and height not exceeding 100
-    The grid is completely surrounded by water
-    There is only one island (or nothing).
-    The island doesn’t have “lakes” (water inside that isn’t connected to
-    the water surrounding the island).
 
-    Args:
-        grid (list of list of int): the grid representing the island
-
-    Returns:
-        int: the perimeter of the island
+def isWinner(x, nums):
+    """Maria and Ben are playing a game.
+    Given a set of consecutive integers starting from 1 up to and including n,
+    they take turns choosing a prime number from the set and removing
+    that number and its multiples from the set.
+    The player that cannot make a move loses the game.
+    They play x rounds of the game,
+    where n may be different for each round.
+    Assuming Maria always goes first and both players play optimally,
+    determine who the winner of each game is.
     """
-    # Determine the number of rows and columns in the grid
-    rows = len(grid)
-    cols = len(grid[0])
 
-    # Initialize the perimeter variable to 0
-    perimeter = 0
+    if x != len(nums):
+        return None
 
-    # Loop through each cell in the grid
-    for i in range(rows):
-        for j in range(cols):
-            if grid[i][j] == 1:
-                # Check the top edge
-                if i == 0 or grid[i-1][j] == 0:
-                    perimeter += 1
-                # Check the bottom edge
-                if i == rows-1 or grid[i+1][j] == 0:
-                    perimeter += 1
-                # Check the left edge
-                if j == 0 or grid[i][j-1] == 0:
-                    perimeter += 1
-                # Check the right edge
-                if j == cols-1 or grid[i][j+1] == 0:
-                    perimeter += 1
+    Ben = 0
+    Maria = 0
 
-    # Return the total perimeter
-    return perimeter
+    for num in nums:
+        primes = primeNumbers(num)
+        if len(primes) % 2 == 0:
+            Ben += 1
+        else:
+            Maria += 1
+
+    return "Ben" if Ben > Maria else "Mar
