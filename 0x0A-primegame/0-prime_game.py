@@ -13,53 +13,52 @@ def isWinner(x, nums):
     Returns:
         str: Name of the player with the most wins or None if tied.
     """
-    mariaWinsCount = 0  # Track Maria's total wins
-    benWinsCount = 0  # Track Ben's total wins
+    mariaWinsCount = 0
+    benWinsCount = 0
 
     for num in nums:
-        roundsSet = list(range(1, num + 1))  # Create a range for the round
-        primesSet = primes_in_range(1, num)  # Get primes within the range
+        roundsSet = list(range(1, num + 1))
+        primesSet = primes_in_range(1, num)
 
-        if not primesSet:  # If no primes, Ben wins this round
+        if not primesSet:
             benWinsCount += 1
             continue
 
-        isMariaTurns = True  # Maria starts the game
+        isMariaTurns = True
 
         while True:
-            if not primesSet:  # No primes left means the game ends
+            if not primesSet:
                 if isMariaTurns:
-                    benWinsCount += 1  # Ben wins if Maria cannot play
+                    benWinsCount += 1
                 else:
-                    mariaWinsCount += 1  # Maria wins if Ben cannot play
+                    mariaWinsCount += 1
                 break
 
-            smallestPrime = primesSet.pop(0)  # Remove the smallest prime
-            roundsSet.remove(smallestPrime)  # Remove it from the range
+            smallestPrime = primesSet.pop(0)
+            roundsSet.remove(smallestPrime)
 
-            # Remove multiples of the prime from the range
             roundsSet = [x for x in roundsSet if x % smallestPrime != 0]
 
-            isMariaTurns = not isMariaTurns  # Alternate turns
+            isMariaTurns = not isMariaTurns
 
     if mariaWinsCount > benWinsCount:
-        return "Winner: Maria"  # Maria wins more rounds
+        return "Winner: Maria"
 
     if mariaWinsCount < benWinsCount:
-        return "Winner: Ben"  # Ben wins more rounds
+        return "Winner: Ben"
 
-    return None  # Tie if wins are equal
+    return None
 
 def is_prime(n):
     """Determine if n is a prime number."""
     if n < 2:
-        return False  # Numbers less than 2 are not prime
+        return False
     for i in range(2, int(n ** 0.5) + 1):
         if n % i == 0:
-            return False  # Divisible by any number other than 1 and itself
+            return False
     return True
 
 def primes_in_range(start, end):
     """Generate a list of primes between start and end inclusive."""
-    primes = [n for n in range(start, end + 1) if is_prime(n)]  # Filter primes
+    primes = [n for n in range(start, end + 1) if is_prime(n)]
     return primes
